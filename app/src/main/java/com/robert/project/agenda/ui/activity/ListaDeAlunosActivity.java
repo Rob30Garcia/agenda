@@ -19,6 +19,7 @@ public class ListaDeAlunosActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_alunos);
+        setTitle("Lista da Alunos");
 
         List<String> alunos = new ArrayList<>(Arrays.asList("Alex", "Robert", "Lucas"));
         ListView listDeAlunos = findViewById(R.id.activity_lista_alunos_listview);
