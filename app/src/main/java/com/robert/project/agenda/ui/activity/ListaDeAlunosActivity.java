@@ -2,7 +2,6 @@ package com.robert.project.agenda.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -18,25 +17,34 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ListaDeAlunosActivity extends AppCompatActivity {
+    public static final String TTTULO_APPBAR = "Lista de Alunos";
+    public final AlunoDAO dao = new AlunoDAO();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_alunos);
-        setTitle("Lista da Alunos");
+        setTitle(TTTULO_APPBAR);
+        configuraFabNovoAluno();
+    }
 
+    private void configuraFabNovoAluno() {
         FloatingActionButton botaoNovoAluno = findViewById(R.id.activity_lista_alunos_fab_novo_aluno);
         botaoNovoAluno.setOnClickListener(view -> {
-            startActivity(new Intent(ListaDeAlunosActivity.this, FormularioAlunoActivity.class));
+            abreFormularioAlunoActivity();
         });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        configuraLista();
+    }
 
-        AlunoDAO dao = new AlunoDAO();
+    private void abreFormularioAlunoActivity() {
+        startActivity(new Intent(this, FormularioAlunoActivity.class));
+    }
 
-        List<String> alunos = new ArrayList<>(Arrays.asList("Alex", "Robert", "Lucas"));
+    private void configuraLista() {
         ListView listDeAlunos = findViewById(R.id.activity_lista_alunos_listview);
         listDeAlunos.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, dao.todos()));
     }
