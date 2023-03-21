@@ -55,10 +55,10 @@ public class ListaDeAlunosActivity extends AppCompatActivity {
         listDeAlunos.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, dao.todos()));
         listDeAlunos.setOnItemClickListener((adapterView, view, position, id) -> {
             Aluno alunoEscolhido = alunos.get(position);
+            Log.i("idAluno", String.valueOf(alunoEscolhido.getId()));
             Intent vaiParaFormularioActivity = new Intent(ListaDeAlunosActivity.this, FormularioAlunoActivity.class);
             vaiParaFormularioActivity.putExtra("aluno", alunoEscolhido);
             startActivity(vaiParaFormularioActivity);
-
         });
     }
 }
