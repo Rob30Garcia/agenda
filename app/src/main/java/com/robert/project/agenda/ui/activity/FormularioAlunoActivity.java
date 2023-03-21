@@ -1,5 +1,7 @@
 package com.robert.project.agenda.ui.activity;
 
+import static com.robert.project.agenda.ui.activity.ConstantesActivities.CHAVE_ALUNO;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,7 +15,8 @@ import com.robert.project.agenda.dao.AlunoDAO;
 import com.robert.project.agenda.model.Aluno;
 
 public class FormularioAlunoActivity extends AppCompatActivity {
-    public static final String TITULO_APPBAR = "Novo Aluno";
+    public static final String TITULO_APPBAR_NOVO_ALUNO = "Novo Aluno";
+    public static final String TITULO_APPBAR_EDIT_ALUNO = "Edit Aluno";
     private EditText campoNome;
     private EditText campoTelefone;
     private EditText campoEmail;
@@ -24,19 +27,24 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario_aluno);
-        setTitle(TITULO_APPBAR);
         inicializacaoDosCampos();
         configuraBotaoSalvar();
 
         Intent dados = getIntent();
         if (dados.hasExtra("aluno")) {
-            aluno = (Aluno) dados.getSerializableExtra("aluno");
-            campoNome.setText(aluno.getNome());
-            campoTelefone.setText(aluno.getTelefone());
-            campoEmail.setText(aluno.getEmail());
+            setTitle(TITULO_APPBAR_NOVO_ALUNO);
+            aluno = (Aluno) dados.getSerializableExtra(CHAVE_ALUNO);
+            preencheCampos();
         } else {
+            setTitle(TITULO_APPBAR_EDIT_ALUNO);
             aluno = new Aluno();
         }
+    }
+
+    private void preencheCampos() {
+        campoNome.setText(aluno.getNome());
+        campoTelefone.setText(aluno.getTelefone());
+        campoEmail.setText(aluno.getEmail());
     }
 
     private void inicializacaoDosCampos() {
@@ -48,16 +56,20 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private void configuraBotaoSalvar() {
         Button botaoSalvar = findViewById(R.id.activity_formulario_aluno_botao_salvar);
         botaoSalvar.setOnClickListener(view -> {
-            preencheAluno();
-
-            if(aluno.temIdValido()) {
-                dao.edita(aluno);
-            } else {
-                dao.salva(aluno);
-            }
-
-            finish();
+            finalizaFormulario();
         });
+    }
+
+    private void finalizaFormulario() {
+        preencheAluno();
+
+        if(aluno.temIdValido()) {
+            dao.edita(aluno);
+        } else {
+            dao.salva(aluno);
+        }
+
+        finish();
     }
 
     private void salva(Aluno aluno) {
