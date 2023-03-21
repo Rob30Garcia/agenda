@@ -2,7 +2,9 @@ package com.robert.project.agenda.model;
 
 import androidx.annotation.NonNull;
 
-public class Aluno {
+import java.io.Serializable;
+
+public class Aluno implements Serializable {
     private String nome;
     private String telefone;
     private String email;

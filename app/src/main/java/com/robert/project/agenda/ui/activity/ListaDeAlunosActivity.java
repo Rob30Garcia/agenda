@@ -51,9 +51,14 @@ public class ListaDeAlunosActivity extends AppCompatActivity {
 
     private void configuraLista() {
         ListView listDeAlunos = findViewById(R.id.activity_lista_alunos_listview);
+        final List<Aluno> alunos = dao.todos();
         listDeAlunos.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, dao.todos()));
         listDeAlunos.setOnItemClickListener((adapterView, view, position, id) -> {
-            Log.i("posicao aluno:", "" + position);
+            Aluno alunoEscolhido = alunos.get(position);
+            Intent vaiParaFormularioActivity = new Intent(ListaDeAlunosActivity.this, FormularioAlunoActivity.class);
+            vaiParaFormularioActivity.putExtra("aluno", alunoEscolhido);
+            startActivity(vaiParaFormularioActivity);
+
         });
     }
 }
